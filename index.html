@@ -3,17 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Tech Quiz</title>
     <link rel="stylesheet" href="./assets/style.css">
 </head>
 <body>
     <main>
-        <div class="container">
-            <div class="questions">
-            </div>
-            <div class="high-score">
-            </div>
+        <div id="timer">
+            <h1 id="timeLeft"></h1>
         </div>
+        <div id="header">
+            <h1>Welcome to my Tech Quiz</h1>
+            <h2 id="headerText">You have until the timer runs out to <br>
+                answer these questions. If you get an answer wrong <br>
+                you will lose ten seconds from the timer. <br>
+                Good luck!
+            </h2>
+        </div>
+
+        <div><button id="startQuizBtn" onclick="startQuiz()">Start Quiz</button></div>
+        <div><button id="viewHighScore">View high-score</button></div>
+
+        <div id="quiz">
+            <h2 id="question"></h2><br>
+            <div id="answerA" onclick="aFunction()">2007</div><br>
+            <div id="answerB" onclick="bFunction()">2013</div><br>
+            <div id="answerC" onclick="cFunction()">2003</div><br>
+            <div id="answerD" onclick="dFunction()">1999</div><br>
+
+            <button id="nextBtn1" onclick="nextQn1()">Next</button>
+            <button id="nextBtn2" onclick="nextQn2()">Next</button>
+            <button id="nextBtn3" onclick="nextQn3()">Next</button>
+        </div>
+
+        <div id="addingYourInfo">
+            <input type="text" placeholder="Type your initials">
+        </div>
+
     </main>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="./assets/script.js"></script>
