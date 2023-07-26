@@ -1,4 +1,5 @@
 let startQuizBtn = document.querySelector('#startQuizBtn');
+let timeLeft = document.querySelector('#timeLeft')
 let viewHighScore = document.querySelector('#viewHighScore')
 let header = document.querySelector('#header');
 let quiz = document.querySelector('#quiz');
@@ -18,14 +19,14 @@ let iterationNumber = 0;
 
 let questionList = [
     "When was the first iPhone released?",
-    "What MP count did most iPhone cameras use until recently?",
-    "With which model did Apple introduce the iPhone mini?"
+    "In what year did the space shuttle Columbia expload?",
+    "What was the year before 2000?"
 ];
 
-let aAnswerList = ["2007", "12MP", "iPhone 8"];
-let bAnswerList = ["2013", "50MP", "iPhone X"];
-let cAnswerList = ["2003", "100MP", "iPhone 12"];
-let dAnswerList = ["1999", "3,200", "Phone 14"];
+// let aAnswerList = ["2007", "12MP", "iPhone 8"];
+// let bAnswerList = ["2013", "50MP", "iPhone X"];
+// let cAnswerList = ["2003", "100MP", "iPhone 12"];
+// let dAnswerList = ["1999", "3,200", "Phone 14"];
 
 quiz.style.display = "none";
 addingYourInfo.style.display = "none"
@@ -47,14 +48,16 @@ function setTime() {
     // Sets interval in variable
    var timerInterval = setInterval(function() {
      secondsLeft--;
-     timeLeft.textContent = secondsLeft;
+     timeLeft.innerHTML = secondsLeft;
 
-     if(secondsLeft === 0) {
+     if (secondsLeft <= 0) {
        // Stops execution of action at set interval
        clearInterval(timerInterval);
-       header.innerHTML = "You are out of time!"
+       header.innerHTML = "All done! Your score is " + score + ".";
        quiz.style.display = "none";
-       addingYourInfo.style.display = "block"
+       addingYourInfo.style.display = "block";
+       timeLeft.innerHTML= "";
+       question.innerHTML = "Your score is " + score + ".";
      }
 
    }, 1000);
@@ -93,29 +96,33 @@ function dFunction() {
 }
 
 function nextQn1() {
-    question.innerHTML = questionList[iterationNumber];    
+    if (ansChoice == "a") {
+        score += 1;
+    } else {
+        secondsLeft -= 10;
+    }  
     iterationNumber += 1;
-    if (ansChoice == "a") {
+    question.innerHTML = questionList[iterationNumber];    
+    nextBtn1.style.display = "none";
+    nextBtn2.style.display = "block";
+}
+
+function nextQn2() {
+    if (ansChoice === "c") {
         score += 1;
     } else {
         secondsLeft -= 10;
-    }}
+    }       
+    iterationNumber += 1;        
+    question.innerHTML = questionList[iterationNumber];
+    nextBtn2.style.display = "none";
+    nextBtn3.style.display = "block";
+}
 
-    function nextQn2() {
-        question.innerHTML = questionList[iterationNumber];
-        iterationNumber += 1;
-    if (ansChoice == "a") {
+function nextQn3() {
+    if (ansChoice === "d") {
         score += 1;
-    } else {
-        secondsLeft -= 10;
-    }}
-
-    function nextQn3() {
-        if (ansChoice == "a") {
-            score += 1;
-        } 
-        iterationNumber += 1;
-        quiz.style.display = "none"
-        question.innerHTML = "Your score is " + score + ".";
-    }
-            
+    } 
+    secondsLeft = 0;
+}
+    
