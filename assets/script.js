@@ -114,6 +114,8 @@ function nextQn1() {
         if (ansChoice == "a") {
             score += 1;
         } 
+        iterationNumber += 1;
+        quiz.style.display = "none"
         question.innerHTML = "Your score is " + score + ".";
     }
             
