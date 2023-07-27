@@ -57,7 +57,7 @@ function setTime() {
        quiz.style.display = "none";
        addingYourInfo.style.display = "block";
        timeLeft.innerHTML= "";
-       question.innerHTML = "Your score is " + score + ".";
+
      }
 
    }, 1000);
