@@ -1,7 +1,7 @@
 # JavaScript quiz
 
 ## Description
-This is a JavaScript quiz mad using alot of new terms(for me).
+This is a JavaScript quiz made using a lot of new terms(for me).
 
 ## 
 This quiz can be used for fun and also dissecting the code if needed.
