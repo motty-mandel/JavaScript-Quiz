@@ -16,7 +16,6 @@ body {
 #header {
     margin-top: 70px;
     padding: 30px;
-    text-align: center;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
@@ -53,5 +52,9 @@ body {
 #nextBtn1,
 #nextBtn2,
 #nextBtn3 {
+    text-align: center;
+}
+
+#submitScore {
     text-align: center;
 }
