@@ -10,5 +10,5 @@ This quiz can be used for fun and also dissecting the code if needed.
 ## Credits
 Most of the help came from youtuber Keith Paterson.
 
-## Liscense
+## License
 Please reference the repo.
