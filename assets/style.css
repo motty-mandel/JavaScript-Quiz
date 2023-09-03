@@ -2,11 +2,11 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    text-align: center;
 }
 
 body {
     background-color: rgb(78, 172, 255);
-    text-align: center;
 }
 
 #timer {
@@ -41,6 +41,7 @@ body {
 }
 
 #quiz #question {
+    margin-top: 70px;
     color: brown;
     font-family: Arial, Helvetica, sans-serif;
 }
@@ -49,12 +50,7 @@ body {
     color: white;
 }
 
-#nextBtn1,
-#nextBtn2,
-#nextBtn3 {
-    text-align: center;
-}
-
 #submitScore {
-    text-align: center;
+
+    margin-top: 10px;
 }

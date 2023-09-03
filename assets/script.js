@@ -16,18 +16,26 @@ let answerC = document.querySelector('#answerC');
 let answerD = document.querySelector('#answerD');
 let addingYourInfo = document.querySelector('#addingYourInfo');
 
+
+
+let welcome = `Welcome to my Tech Quiz.
+        You have until the timer runs out to 
+    answer these questions. If you get an answer wrong
+        you will lose ten seconds from the timer.
+                    Good luck!`;
 let ansChoice = "";
 let score = 0
 let iterationNumber = 0;
 let scoreAmount = localStorage.getItem('score');
 
-// Making a list questions to ask
+// Making a list of questions to ask
 let questionList = [
     "When was the first iPhone released?",
     "In what year did the space shuttle Columbia expload?",
     "What was the year before 2000?"
 ];
 
+header.innerHTML = welcome;
 // Hiding the questions until needed
 quiz.style.display = "none";
 addingYourInfo.style.display = "none";
@@ -44,37 +52,38 @@ addingYourInfo.style.display = "none";
 // Starting the timer, hiding the header and most of the buttons and showing the questions
 function startQuiz() {
     setTime()
-    header.innerHTML = "";
+    header.style.display = "none"
+    startQuizBtn.style.display = "none"
     viewHighScore.style.display = "none"
-    startQuizBtn.style.display = "none";
     nextBtn2.style.display = "none";
     nextBtn3.style.display = "none";
     quiz.style.display = "block";
     question.innerHTML = questionList[iterationNumber];
 }
 
-var secondsLeft = 20;
+var secondsLeft = 200;
 
 // Creating the timer
 function setTime() {
     // Sets interval in variable
-   var timerInterval = setInterval(function() {
-     secondsLeft--;
-     timeLeft.innerHTML = secondsLeft;
+    var timerInterval = setInterval(function () {
+        secondsLeft--;
+        timeLeft.innerHTML = secondsLeft;
 
-     if (secondsLeft <= 0) {
-       // Stops execution of action at set interval
-       clearInterval(timerInterval);
-       header.innerHTML = "All done! Your score is " + score + ".";
-       quiz.style.display = "none";
-       addingYourInfo.style.display = "block";
-       timeLeft.innerHTML= "";
-     }
+        if (secondsLeft <= 0) {
+            // Stops execution of action at set interval
+            clearInterval(timerInterval);
+            header.style.display = "block"
+            header.innerHTML = "All done! Your score is " + score + ".";
+            quiz.style.display = "none";
+            addingYourInfo.style.display = "block";
+            timeLeft.innerHTML = "";
+        }
 
-   }, 1000);
- }
+    }, 1000);
+}
 
- // Making the chosen answer red and the others white
+// Making the chosen answer red and the others white
 function aFunction() {
     answerA.style.color = "red";
     answerB.style.color = "white";
@@ -109,13 +118,13 @@ function dFunction() {
 
 // Checking to see if the answers are right
 function nextQn1() {
-    if (ansChoice == "a") {
+    if (ansChoice === "a") {
         score += 1;
     } else {
         secondsLeft -= 10;
-    }  
+    }
     iterationNumber += 1;
-    question.innerHTML = questionList[iterationNumber];    
+    question.innerHTML = questionList[iterationNumber];
     nextBtn1.style.display = "none";
     nextBtn2.style.display = "block";
 }
@@ -125,8 +134,8 @@ function nextQn2() {
         score += 1;
     } else {
         secondsLeft -= 10;
-    }       
-    iterationNumber += 1;        
+    }
+    iterationNumber += 1;
     question.innerHTML = questionList[iterationNumber];
     nextBtn2.style.display = "none";
     nextBtn3.style.display = "block";
@@ -135,6 +144,13 @@ function nextQn2() {
 function nextQn3() {
     if (ansChoice === "d") {
         score += 1;
-    } 
+    }
     secondsLeft = 0;
+}
+
+function submitFctn() {
+    header.innerHTML = welcome
+    startQuizBtn.style.display = "block"
+    viewHighScore.style.display = "block"
+    addingYourInfo.style.display = "none";
 }
