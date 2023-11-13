@@ -1,14 +1,11 @@
 // Finding references to all the buttons and questions and answers from the html
 let startQuizBtn = document.querySelector('#startQuizBtn');
 let timeLeft = document.querySelector('#timeLeft')
-let viewHighScore = document.querySelector('#viewHighScore')
+let viewHighScoreBtn = document.querySelector('#viewHighScore')
 let header = document.querySelector('#header');
 let quiz = document.querySelector('#quiz');
-let input = document.querySelector('#input');
+let input = document.querySelector('#initials');
 let submitScore = document.querySelector('#submitScore');
-let nextBtn1 = document.querySelector('#nextBtn1');
-let nextBtn2 = document.querySelector('#nextBtn2');
-let nextBtn3 = document.querySelector('#nextBtn3');
 let question = document.querySelector('#question');
 let answerA = document.querySelector('#answerA');
 let answerB = document.querySelector('#answerB');
@@ -16,47 +13,50 @@ let answerC = document.querySelector('#answerC');
 let answerD = document.querySelector('#answerD');
 let addingYourInfo = document.querySelector('#addingYourInfo');
 
+let score = 0
+let iterationNumber = 0;
 
-
+// Making a list of questions to ask
+let questionList = [
+    "When was the first iPhone released?",
+    "What was the year before 2000?",
+    "In what year did the space shuttle Columbia expload?",
+    "In which year did Magnus Carlsen break Gary Kasparov's FIDE rating?"
+];
+// Making a welcome message
 let welcome = `Welcome to my Tech Quiz.
         You have until the timer runs out to 
     answer these questions. If you get an answer wrong
         you will lose ten seconds from the timer.
                     Good luck!`;
-let ansChoice = "";
-let score = 0
-let iterationNumber = 0;
-let scoreAmount = localStorage.getItem('score');
 
-// Making a list of questions to ask
-let questionList = [
-    "When was the first iPhone released?",
-    "In what year did the space shuttle Columbia expload?",
-    "What was the year before 2000?"
-];
 
 header.innerHTML = welcome;
+
 // Hiding the questions until needed
 quiz.style.display = "none";
 addingYourInfo.style.display = "none";
 
-// I tried getting this to work
-// submitScore.addEventListener('click', function() {
-//     var initials = input;
+submitScore.addEventListener('click', function () {
+    localStorage.setItem("score", score);
+    localStorage.setItem("initials", initials.value);
+});
 
-//     localStorage.setItem("score", score);
-
-//     localStorage.setItem("initials", initials);
-// });
+function viewHighScore() {
+    header.style.display = 'none';
+    viewHighScoreBtn.style.display = 'none';
+    startQuizBtn.style.display = 'none';
+}
 
 // Starting the timer, hiding the header and most of the buttons and showing the questions
 function startQuiz() {
     setTime()
+    score = 0
+    iterationNumber = 0;
+    secondsLeft = 200
     header.style.display = "none"
     startQuizBtn.style.display = "none"
     viewHighScore.style.display = "none"
-    nextBtn2.style.display = "none";
-    nextBtn3.style.display = "none";
     quiz.style.display = "block";
     question.innerHTML = questionList[iterationNumber];
 }
@@ -89,15 +89,41 @@ function aFunction() {
     answerB.style.color = "white";
     answerC.style.color = "white";
     answerD.style.color = "white";
-    ansChoice = "a";
-}
+
+    if (questionList[iterationNumber] === questionList[0]) {
+        score += 1;
+    } else {
+        secondsLeft -= 10;
+    };
+
+    iterationNumber += 1;
+    if (iterationNumber === 4) {
+        secondsLeft = 0;
+        answerA.style.color = "white";
+    } else {
+        question.innerHTML = questionList[iterationNumber];
+    }
+};
 
 function bFunction() {
     answerA.style.color = "white";
     answerB.style.color = "red";
     answerC.style.color = "white";
     answerD.style.color = "white";
-    ansChoice = "b";
+
+    if (questionList[iterationNumber] === questionList[3]) {
+        score += 1;
+    } else {
+        secondsLeft -= 10;
+    }
+
+    iterationNumber += 1;
+    if (iterationNumber === 4) {
+        secondsLeft = 0;
+        answerB.style.color = "white";
+    } else {
+        question.innerHTML = questionList[iterationNumber];
+    }
 }
 
 function cFunction() {
@@ -105,7 +131,20 @@ function cFunction() {
     answerB.style.color = "white";
     answerC.style.color = "red";
     answerD.style.color = "white";
-    ansChoice = "c";
+
+    if (questionList[iterationNumber] === questionList[2]) {
+        score += 1;
+    } else {
+        secondsLeft -= 10;
+    }
+
+    iterationNumber += 1;
+    if (iterationNumber === 4) {
+        secondsLeft = 0;
+        answerC.style.color = "white";
+    } else {
+        question.innerHTML = questionList[iterationNumber];
+    }
 }
 
 function dFunction() {
@@ -113,44 +152,26 @@ function dFunction() {
     answerB.style.color = "white";
     answerC.style.color = "white";
     answerD.style.color = "red";
-    ansChoice = "d";
-}
 
-// Checking to see if the answers are right
-function nextQn1() {
-    if (ansChoice === "a") {
+    if (questionList[iterationNumber] === questionList[1]) {
         score += 1;
     } else {
         secondsLeft -= 10;
     }
-    iterationNumber += 1;
-    question.innerHTML = questionList[iterationNumber];
-    nextBtn1.style.display = "none";
-    nextBtn2.style.display = "block";
-}
 
-function nextQn2() {
-    if (ansChoice === "c") {
-        score += 1;
+    iterationNumber += 1;
+    if (iterationNumber === 4) {
+        secondsLeft = 0;
+        answerD.style.color = "white";
     } else {
-        secondsLeft -= 10;
+        question.innerHTML = questionList[iterationNumber];
     }
-    iterationNumber += 1;
-    question.innerHTML = questionList[iterationNumber];
-    nextBtn2.style.display = "none";
-    nextBtn3.style.display = "block";
 }
 
-function nextQn3() {
-    if (ansChoice === "d") {
-        score += 1;
-    }
-    secondsLeft = 0;
-}
 
 function submitFctn() {
     header.innerHTML = welcome
-    startQuizBtn.style.display = "block"
-    viewHighScore.style.display = "block"
+    startQuizBtn.style.display = "inline"
+    viewHighScore.style.display = "inline"
     addingYourInfo.style.display = "none";
 }
