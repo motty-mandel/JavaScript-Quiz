@@ -36,142 +36,164 @@ header.innerHTML = welcome;
 // Hiding the questions until needed
 quiz.style.display = "none";
 addingYourInfo.style.display = "none";
-
+var previousScores = localStorage.getItem("highScores");
 submitScore.addEventListener('click', function () {
-    localStorage.setItem("score", score);
-    localStorage.setItem("initials", initials.value);
+    if (previousScores) {
+        previousScores = JSON.parse(previousScores);
+    } else {
+        previousScores = [];
+    }
+    previousScores.push([input.value, score]);
+    localStorage.setItem("highScores", JSON.stringify(previousScores));
 });
 
 function viewHighScore() {
-    header.style.display = 'none';
-    viewHighScoreBtn.style.display = 'none';
-    startQuizBtn.style.display = 'none';
-}
-
-// Starting the timer, hiding the header and most of the buttons and showing the questions
-function startQuiz() {
-    setTime()
-    score = 0
-    iterationNumber = 0;
-    secondsLeft = 200
-    header.style.display = "none"
-    startQuizBtn.style.display = "none"
-    viewHighScore.style.display = "none"
-    quiz.style.display = "block";
-    question.innerHTML = questionList[iterationNumber];
-}
-
-var secondsLeft = 200;
-
-// Creating the timer
-function setTime() {
-    // Sets interval in variable
-    var timerInterval = setInterval(function () {
-        secondsLeft--;
-        timeLeft.innerHTML = secondsLeft;
-
-        if (secondsLeft <= 0) {
-            // Stops execution of action at set interval
-            clearInterval(timerInterval);
-            header.style.display = "block"
-            header.innerHTML = "All done! Your score is " + score + ".";
-            quiz.style.display = "none";
-            addingYourInfo.style.display = "block";
-            timeLeft.innerHTML = "";
+    if (previousScores) {
+        console.log(previousScores);
+        // Displaying the high scores in the header
+        var highScoresString = "";
+        for (var i = 0; i < previousScores.length; i++) {
+            highScoresString += previousScores[i][0] + ": " + previousScores[i][1] + "<br>";
         }
-
-    }, 1000);
-}
-
-// Making the chosen answer red and the others white
-function aFunction() {
-    answerA.style.color = "red";
-    answerB.style.color = "white";
-    answerC.style.color = "white";
-    answerD.style.color = "white";
-
-    if (questionList[iterationNumber] === questionList[0]) {
-        score += 1;
+        header.innerHTML = highScoresString;
+        viewHighScoreBtn.style.display = 'none';
+        startQuizBtn.style.display = 'none';
+        var button = document.createElement('button');
+        button.textContent = 'Go back';
+        document.body.appendChild(button);
+        button.addEventListener('click', function () {
+            location.reload();
+        });
     } else {
-        secondsLeft -= 10;
-    };
-
-    iterationNumber += 1;
-    if (iterationNumber === 4) {
-        secondsLeft = 0;
-        answerA.style.color = "white";
-    } else {
-        question.innerHTML = questionList[iterationNumber];
+        header.innerHTML = "No high scores yet";
+        viewHighScoreBtn.style.display = 'none';
     }
 };
 
-function bFunction() {
-    answerA.style.color = "white";
-    answerB.style.color = "red";
-    answerC.style.color = "white";
-    answerD.style.color = "white";
-
-    if (questionList[iterationNumber] === questionList[3]) {
-        score += 1;
-    } else {
-        secondsLeft -= 10;
+    // Starting the timer, hiding the header and most of the buttons and showing the questions
+    function startQuiz() {
+        setTime()
+        score = 0
+        iterationNumber = 0;
+        secondsLeft = 200
+        header.style.display = "none"
+        startQuizBtn.style.display = "none"
+        viewHighScoreBtn.style.display = "none"
+        quiz.style.display = "block";
+        question.innerHTML = questionList[iterationNumber];
     }
 
-    iterationNumber += 1;
-    if (iterationNumber === 4) {
-        secondsLeft = 0;
+    var secondsLeft = 200;
+
+    // Creating the timer
+    function setTime() {
+        // Sets interval in variable
+        var timerInterval = setInterval(function () {
+            secondsLeft--;
+            timeLeft.innerHTML = secondsLeft;
+
+            if (secondsLeft <= 0) {
+                // Stops execution of action at set interval
+                clearInterval(timerInterval);
+                header.style.display = "block"
+                header.innerHTML = "All done! Your score is " + score + ".";
+                quiz.style.display = "none";
+                addingYourInfo.style.display = "block";
+                timeLeft.innerHTML = "";
+            }
+
+        }, 1000);
+    }
+
+    // Making the chosen answer red and the others white
+    function aFunction() {
+        answerA.style.color = "red";
         answerB.style.color = "white";
-    } else {
-        question.innerHTML = questionList[iterationNumber];
-    }
-}
-
-function cFunction() {
-    answerA.style.color = "white";
-    answerB.style.color = "white";
-    answerC.style.color = "red";
-    answerD.style.color = "white";
-
-    if (questionList[iterationNumber] === questionList[2]) {
-        score += 1;
-    } else {
-        secondsLeft -= 10;
-    }
-
-    iterationNumber += 1;
-    if (iterationNumber === 4) {
-        secondsLeft = 0;
         answerC.style.color = "white";
-    } else {
-        question.innerHTML = questionList[iterationNumber];
-    }
-}
-
-function dFunction() {
-    answerA.style.color = "white";
-    answerB.style.color = "white";
-    answerC.style.color = "white";
-    answerD.style.color = "red";
-
-    if (questionList[iterationNumber] === questionList[1]) {
-        score += 1;
-    } else {
-        secondsLeft -= 10;
-    }
-
-    iterationNumber += 1;
-    if (iterationNumber === 4) {
-        secondsLeft = 0;
         answerD.style.color = "white";
-    } else {
-        question.innerHTML = questionList[iterationNumber];
+
+        if (questionList[iterationNumber] === questionList[0]) {
+            score += 1;
+        } else {
+            secondsLeft -= 10;
+        };
+
+        iterationNumber += 1;
+        if (iterationNumber === 4) {
+            secondsLeft = 0;
+            answerA.style.color = "white";
+        } else {
+            question.innerHTML = questionList[iterationNumber];
+        }
+    };
+
+    function bFunction() {
+        answerA.style.color = "white";
+        answerB.style.color = "red";
+        answerC.style.color = "white";
+        answerD.style.color = "white";
+
+        if (questionList[iterationNumber] === questionList[3]) {
+            score += 1;
+        } else {
+            secondsLeft -= 10;
+        }
+
+        iterationNumber += 1;
+        if (iterationNumber === 4) {
+            secondsLeft = 0;
+            answerB.style.color = "white";
+        } else {
+            question.innerHTML = questionList[iterationNumber];
+        }
     }
-}
+
+    function cFunction() {
+        answerA.style.color = "white";
+        answerB.style.color = "white";
+        answerC.style.color = "red";
+        answerD.style.color = "white";
+
+        if (questionList[iterationNumber] === questionList[2]) {
+            score += 1;
+        } else {
+            secondsLeft -= 10;
+        }
+
+        iterationNumber += 1;
+        if (iterationNumber === 4) {
+            secondsLeft = 0;
+            answerC.style.color = "white";
+        } else {
+            question.innerHTML = questionList[iterationNumber];
+        }
+    }
+
+    function dFunction() {
+        answerA.style.color = "white";
+        answerB.style.color = "white";
+        answerC.style.color = "white";
+        answerD.style.color = "red";
+
+        if (questionList[iterationNumber] === questionList[1]) {
+            score += 1;
+        } else {
+            secondsLeft -= 10;
+        }
+
+        iterationNumber += 1;
+        if (iterationNumber === 4) {
+            secondsLeft = 0;
+            answerD.style.color = "white";
+        } else {
+            question.innerHTML = questionList[iterationNumber];
+        }
+    }
 
 
-function submitFctn() {
-    header.innerHTML = welcome
-    startQuizBtn.style.display = "inline"
-    viewHighScore.style.display = "inline"
-    addingYourInfo.style.display = "none";
-}
+    function submitFctn() {
+        header.innerHTML = welcome
+        startQuizBtn.style.display = "inline"
+        viewHighScoreBtn.style.display = "inline"
+        addingYourInfo.style.display = "none";
+    }
